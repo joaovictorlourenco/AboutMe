@@ -1,0 +1,18 @@
+---
+interface Props {
+	title: string;
+	href: string;
+	bgColor: string;
+	fontColor : string;
+}
+
+const { href, title, bgColor, fontColor } = Astro.props;
+---
+
+<button class={`${bgColor} ${fontColor} w-3/5 h-11 rounded-md`}>
+	<a href={
+		href
+	} class="text-xl">
+		{title}
+	</a>
+</button>
