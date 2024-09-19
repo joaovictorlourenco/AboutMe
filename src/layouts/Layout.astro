@@ -1,13 +1,16 @@
 ---
 interface Props {
 	title: string;
+	className: string
 }
 
-const { title } = Astro.props;
+const currentYear = new Date().getFullYear();
+
+const { title, className } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content="Astro description" />
@@ -16,7 +19,10 @@ const { title } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
-	<body class="w-screen h-screen bg-background flex flex-col justify-center items-center gap-5">
+	<body class={`${className} w-screen h-screen bg-background flex flex-col justify-center items-center gap-5`}>
 		<slot />
 	</body>
+	<footer>
+		<p class="text-white">© { currentYear } - João Victor Lourenço</p>
+	</footer>
 </html>

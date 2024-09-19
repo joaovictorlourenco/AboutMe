@@ -1,13 +1,64 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Button from '../components/Button.astro';
-import Icon from '../components/Icon.astro';
+import Icon from '../components/IconPhoto.astro';
+
+interface SocialMediaTypes {
+  [key: string]: {
+	url: string;
+	icon: string;
+	backgroundColor: string;
+	color: string;
+	title: string;
+  };
+}
+
+const socialMedia : SocialMediaTypes = {
+  "linkedin": {
+    "url": "https://www.linkedin.com/in/jo%C3%A3odevfull/",
+    "icon": "mdi:linkedin",
+    "backgroundColor": "bg-button-linkedin",
+    "color": "text-white",
+    "title": "Linkedin"
+  },
+  "instagram": {
+    "url": "https://www.instagram.com/joaolourenco.ceara/",
+    "icon": "mdi:instagram",
+    "backgroundColor": "bg-button-instagram",
+    "color": "text-white",
+    "title": "Instagram"
+  },
+  "github": {
+    "url": "https://github.com/joaovictorlourenco",
+    "icon": "mdi:github-box",
+    "backgroundColor": "bg-button-github",
+    "color": "text-white",
+    "title": "Github"
+  },
+  "gmail": {
+    "url": "mailto:joaovictorlourenco886@gmail.com",
+    "icon": "mdi:gmail",
+    "backgroundColor": "bg-white",
+    "color": "text-gmail",
+    "title": "Gmail"
+  }
+};
 ---
 
-<Layout title="Portifolio">
-	<Icon title="Desenvolvedor Full Stack" />
-	<Button href='https://www.linkedin.com/in/jo%C3%A3odevfull/' bgColor="bg-button-linkedin" fontColor="text-white" title='Linkedin'/>
-	<Button href='mailto:teste@gmail.com' bgColor="bg-button-instagram" fontColor="text-white"  title='Instagram'/>
-	<Button href='mailto:teste@gmail.com' bgColor="bg-button-github" fontColor="text-white"  title='Github'/>
-	<Button href='mailto:teste@gmail.com' bgColor="bg-white" fontColor="text-gmail"  title='Gmail'/>
+<Layout title="Portifolio" className="justify-around">
+  <Icon title="Desenvolvedor Full Stack" />
+  <div class="flex flex-col w-72 items-center gap-5 justify-center">
+    {Object.keys(socialMedia).map((key) => {
+      const { url, icon, backgroundColor, color, title } = socialMedia[key];
+      return (
+        <Button
+          icon={icon}
+          href={url}
+          bgColor={backgroundColor}
+          fontColor={color}
+          title={title}
+        />
+      );
+    })}
+  </div>
 </Layout>
