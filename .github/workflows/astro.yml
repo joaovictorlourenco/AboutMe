@@ -33,17 +33,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
-      - name: Install Bun
-        run: |
-          curl -fsSL https://bun.sh/install | bash
-          echo "Bun installed"
-          export PATH="$HOME/.bun/bin:$PATH"
-      
+            
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
-
+        
+      - uses: oven-sh/setup-bun@v2
+      
       - name: Install dependencies with Bun
         run: bun install
         working-directory: ${{ env.BUILD_PATH }}
