@@ -13,9 +13,9 @@ interface Props {
 const { href, title, bgColor, fontColor, icon } = Astro.props;
 ---
 
-<button class={`${bgColor} ${fontColor} w-full h-11 rounded-md flex items-center justify-center gap-2 hover:bg-opacity-60 ransition-all duration-500 `}>
-  <Icon name={icon} class="text-3xl" />
-  <a href={href} class="text-xl">
-    {title}
-  </a>
-</button>
+<a href={href} class="w-full">
+	<button class={`${bgColor} ${fontColor} w-full h-11 rounded-md flex items-center justify-center gap-2 hover:bg-opacity-60 ransition-all duration-500 `}>
+	<Icon name={icon} class="text-3xl" />
+		<p class="text-xl">{title}</p>
+	</button>
+</a>
