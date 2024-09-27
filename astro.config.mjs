@@ -9,6 +9,6 @@ import icon from 'astro-icon';
 // https://astro.build/config
 export default defineConfig({
   prefetch: true,
-  site: 'https://stargazers.club',
+  site: 'https://joaovictorlourenco.github.io/AboutMe/',
   integrations: [tailwind(), icon(), sitemap()],
 });
