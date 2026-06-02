@@ -1,0 +1,126 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  href: string;
+  icon: string;
+  label: string;
+  variant?: 'primary' | 'secondary';
+}
+
+const { href, icon, label, variant = 'primary' } = Astro.props;
+---
+
+<a
+  href={href}
+  class={`social-link social-link--${variant}`}
+  data-astro-prefetch="viewport"
+  rel={href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+  target={href.startsWith('mailto:') ? undefined : '_blank'}
+>
+  <Icon name={icon} class="social-link__icon" />
+  <span class="social-link__label">{label}</span>
+  <svg
+    class="social-link__arrow"
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M3 8h10M9 4l4 4-4 4" />
+  </svg>
+</a>
+
+<style>
+  .social-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s ease-out;
+  }
+
+  .social-link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .social-link--primary {
+    background-color: var(--color-primary);
+    color: var(--color-bg);
+    box-shadow: 0 1px 3px oklch(0.40 0.08 130 / 0.2);
+  }
+
+  .social-link--primary:hover {
+    background-color: var(--color-primary-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px oklch(0.40 0.08 130 / 0.25);
+  }
+
+  .social-link--primary:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 3px oklch(0.40 0.08 130 / 0.2);
+  }
+
+  .social-link--secondary {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    border: 1px solid var(--color-border);
+  }
+
+  .social-link--secondary:hover {
+    background-color: var(--color-primary-surface);
+    border-color: var(--color-primary);
+    color: var(--color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px oklch(0.40 0.08 130 / 0.12);
+  }
+
+  .social-link--secondary:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 3px oklch(0.40 0.08 130 / 0.12);
+  }
+
+  .social-link__icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  .social-link__label {
+    flex: 1;
+  }
+
+  .social-link__arrow {
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+  }
+
+  .social-link:hover .social-link__arrow {
+    opacity: 0.6;
+    transform: translateX(2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .social-link {
+      transition: none;
+    }
+    .social-link:hover {
+      transform: none;
+    }
+    .social-link__arrow {
+      transition: none;
+    }
+  }
+</style>
