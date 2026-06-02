@@ -1,49 +1,102 @@
 ---
+import NavBar from '../components/NavBar.astro';
+import SmoothScroll from '../components/SmoothScroll.astro';
+
 interface Props {
   title: string;
-  className: string;
 }
 
 const currentYear = new Date().getFullYear();
 
-const { title, className } = Astro.props;
+const { title } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="pt-br">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BG96RJSG38"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-
-      gtag("config", "G-BG96RJSG38");
-    </script>
     <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
-    <meta name="viewport" content="width=device-width" />
+    <meta
+      name="description"
+      content="João Victor Lourenço — Desenvolvedor de Software. Portfólio profissional."
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="stylesheet" href="/sitemap-index.xml" />
     <meta
       name="google-site-verification"
       content="4Y9FfFYiim01hecddemEpLY-uTldVF207yiJFYJDzjw"
     />
     <meta name="generator" content={Astro.generator} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage:wght@400;600;700&family=Sora:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <title>{title}</title>
   </head>
-  <body
-    class={`${className} w-screen h-screen bg-background flex flex-col justify-center items-center gap-5 p-4 sm:p-10`}
-  >
-    <slot />
+  <body>
+    <a href="#main" class="skip-link">Pular para o conteúdo</a>
+    <NavBar />
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <p class="site-footer__text">
+        &copy; {currentYear} · João Victor Lourenço
+      </p>
+      <p class="site-footer__tagline">
+        Feito com Astro, café e muitas linhas de código.
+      </p>
+    </footer>
+
+    <SmoothScroll />
   </body>
-  <footer class="w-full flex justify-center p-4 bg-background sm:p-6">
-    <p class="text-white text-center text-sm sm:text-base">
-      © {currentYear} - João Victor Lourenço
-    </p>
-  </footer>
 </html>
+
+<style>
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--color-primary);
+    color: var(--color-bg);
+    padding: 8px 16px;
+    z-index: 100;
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    border-radius: 0 0 4px 0;
+    transition: top 0.2s;
+  }
+
+  .skip-link:focus {
+    top: 0;
+  }
+
+  .site-footer {
+    width: 100%;
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: var(--space-2xl) var(--space-xl) var(--space-lg);
+    text-align: center;
+  }
+
+  .site-footer__text {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+    margin: 0 0 var(--space-xs);
+  }
+
+  .site-footer__tagline {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    color: var(--color-muted);
+    opacity: 0.7;
+    margin: 0;
+  }
+</style>

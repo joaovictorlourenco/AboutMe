@@ -1,0 +1,195 @@
+---
+const navLinks = [
+  { label: 'Início', href: '#hero' },
+  { label: 'Experiência', href: '#experiencia' },
+  { label: 'Projetos', href: '#projetos' },
+  { label: 'Formação', href: '#formacao' },
+  { label: 'Contato', href: '#contato' },
+];
+---
+
+<header class="navbar" role="banner">
+  <a href="#hero" class="navbar__brand" aria-label="Ir para o topo">João</a>
+
+  <nav class="navbar__nav" aria-label="Navegação principal">
+    <ul class="navbar__list">
+      {
+        navLinks.map((link) => (
+          <li class="navbar__item">
+            <a href={link.href} class="navbar__link">
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  <button
+    class="navbar__toggle"
+    aria-label="Abrir menu"
+    aria-expanded="false"
+    aria-controls="navbar-menu"
+    type="button"
+  >
+    <span class="navbar__hamburger" aria-hidden="true"></span>
+  </button>
+</header>
+
+<style>
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-md) var(--space-xl);
+    background: transparent;
+    transition: background-color 0.3s ease-out, box-shadow 0.3s ease-out;
+  }
+
+  .navbar--scrolled {
+    background-color: oklch(1.00 0 0 / 0.85);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 1px 3px oklch(0.30 0.02 130 / 0.06);
+  }
+
+  .navbar__brand {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-primary);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  .navbar__brand:hover {
+    color: var(--color-primary-dark);
+  }
+
+  .navbar__nav {
+    display: flex;
+  }
+
+  .navbar__list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .navbar__link {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-ink);
+    text-decoration: none;
+    padding: 0.25rem 0;
+    position: relative;
+    transition: color 0.2s ease-out;
+  }
+
+  .navbar__link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-primary);
+    transition: width 0.2s ease-out;
+    border-radius: 1px;
+  }
+
+  .navbar__link:hover {
+    color: var(--color-primary);
+  }
+
+  .navbar__link:hover::after {
+    width: 100%;
+  }
+
+  .navbar__link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .navbar__toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-sm);
+  }
+
+  .navbar__hamburger {
+    display: block;
+    width: 1.5rem;
+    height: 2px;
+    background-color: var(--color-ink);
+    position: relative;
+    transition: background-color 0.2s ease-out;
+  }
+
+  .navbar__hamburger::before,
+  .navbar__hamburger::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-ink);
+    transition: transform 0.2s ease-out;
+  }
+
+  .navbar__hamburger::before {
+    top: -6px;
+  }
+
+  .navbar__hamburger::after {
+    top: 6px;
+  }
+
+  @media (max-width: 768px) {
+    .navbar__nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: var(--color-bg);
+      padding: var(--space-md) var(--space-xl);
+      box-shadow: 0 4px 12px oklch(0.30 0.02 130 / 0.08);
+    }
+
+    .navbar__nav.is-open {
+      display: flex;
+    }
+
+    .navbar__list {
+      flex-direction: column;
+      gap: var(--space-md);
+      width: 100%;
+    }
+
+    .navbar__toggle {
+      display: block;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .navbar,
+    .navbar__link::after,
+    .navbar__hamburger,
+    .navbar__hamburger::before,
+    .navbar__hamburger::after {
+      transition: none;
+    }
+  }
+</style>
