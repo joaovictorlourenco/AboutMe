@@ -1,0 +1,98 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Social {
+  url: string;
+  icon: string;
+  label: string;
+}
+
+interface Props {
+  socials: Social[];
+  variant?: 'large' | 'compact';
+}
+
+const { socials, variant = 'compact' } = Astro.props;
+---
+
+<div class={`social-links social-links--${variant}`}>
+  {
+    socials.map((s) => (
+      <a
+        href={s.url}
+        class="social-links__item"
+        aria-label={s.label}
+        target={s.url.startsWith('mailto:') ? undefined : '_blank'}
+        rel={s.url.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+      >
+        <Icon name={s.icon} class="social-links__icon" />
+        {variant === 'large' && <span class="social-links__label">{s.label}</span>}
+      </a>
+    ))
+  }
+</div>
+
+<style>
+  .social-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .social-links--compact {
+    gap: var(--space-md);
+  }
+
+  .social-links--large {
+    gap: var(--space-lg);
+  }
+
+  .social-links__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    text-decoration: none;
+    color: var(--color-muted);
+    transition: color 0.2s ease-out, transform 0.2s ease-out;
+  }
+
+  .social-links__item:hover {
+    color: var(--color-primary);
+    transform: translateY(-2px);
+  }
+
+  .social-links__item:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  .social-links__icon {
+    font-size: 1.5rem;
+  }
+
+  .social-links--large .social-links__icon {
+    font-size: 2rem;
+  }
+
+  .social-links__label {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-muted);
+  }
+
+  .social-links__item:hover .social-links__label {
+    color: var(--color-primary);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .social-links__item {
+      transition: none;
+    }
+    .social-links__item:hover {
+      transform: none;
+    }
+  }
+</style>
