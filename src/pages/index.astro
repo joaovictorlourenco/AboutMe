@@ -1,64 +1,235 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Button from '../components/Button.astro';
-import Icon from '../components/IconPhoto.astro';
+import ProfileHeader from '../components/ProfileHeader.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ExperienceTimeline from '../components/ExperienceTimeline.astro';
+import ProjectsGrid from '../components/ProjectsGrid.astro';
+import EducationItem from '../components/EducationItem.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import { education } from '../data/education';
 
-interface SocialMediaTypes {
-  [key: string]: {
-	url: string;
-	icon: string;
-	backgroundColor: string;
-	color: string;
-	title: string;
-  };
-}
-
-const socialMedia : SocialMediaTypes = {
-  "linkedin": {
-    "url": "https://www.linkedin.com/in/jo%C3%A3odevfull/",
-    "icon": "mdi:linkedin",
-    "backgroundColor": "bg-button-linkedin",
-    "color": "text-white",
-    "title": "Linkedin"
+const socials = [
+  {
+    url: 'https://www.linkedin.com/in/jo%C3%A3odevfull/',
+    icon: 'mdi:linkedin',
+    label: 'LinkedIn',
   },
-  "instagram": {
-    "url": "https://www.instagram.com/joaolourenco.ceara/",
-    "icon": "mdi:instagram",
-    "backgroundColor": "bg-button-instagram",
-    "color": "text-white",
-    "title": "Instagram"
+  {
+    url: 'https://github.com/joaovictorlourenco',
+    icon: 'mdi:github',
+    label: 'GitHub',
   },
-  "github": {
-    "url": "https://github.com/joaovictorlourenco",
-    "icon": "mdi:github-box",
-    "backgroundColor": "bg-button-github",
-    "color": "text-white",
-    "title": "Github"
+  {
+    url: 'https://www.instagram.com/joaolourenco.ceara/',
+    icon: 'mdi:instagram',
+    label: 'Instagram',
   },
-  "gmail": {
-    "url": "mailto:joaovictorlourenco886@gmail.com",
-    "icon": "mdi:gmail",
-    "backgroundColor": "bg-white",
-    "color": "text-gmail",
-    "title": "Gmail"
-  }
-};
+  {
+    url: 'mailto:joaovictorlourenco886@gmail.com',
+    icon: 'mdi:email-outline',
+    label: 'Email',
+  },
+];
 ---
 
-<Layout title="Portifolio" className="justify-around">
-  <Icon title="Desenvolvedor Full Stack" />
-  <div class="flex flex-col w-72 items-center gap-5 justify-center">
-    {Object.keys(socialMedia).map((key) => {
-      const { url, icon, backgroundColor, color, title } = socialMedia[key];
-      return (
-        <Button
-          icon={icon}
-          href={url}
-          bgColor={backgroundColor}
-          fontColor={color}
-          title={title}
+<Layout title="João Victor Lourenço — Desenvolvedor de Software">
+  <div class="page">
+    <section id="hero" class="section section--hero">
+      <div class="card animate-in">
+        <ProfileHeader
+          name="João Victor Lourenço"
+          title="Desenvolvedor de Software — do backend de alta performance ao frontend polido."
+          tagline="Construo sistemas escaláveis em Go, Node e Python. Gosto de código limpo, arquitetura bem pensada e produtos que funcionam."
         />
-      );
-    })}
+      </div>
+    </section>
+
+    <section id="experiencia" class="section">
+      <div class="section__inner reveal">
+        <SectionHeading label="Onde trabalhei" title="Experiência Profissional" />
+        <ExperienceTimeline />
+      </div>
+    </section>
+
+    <section id="projetos" class="section">
+      <div class="section__inner reveal">
+        <SectionHeading label="O que construí" title="Projetos" />
+        <ProjectsGrid />
+      </div>
+    </section>
+
+    <section id="formacao" class="section">
+      <div class="section__inner reveal">
+        <SectionHeading label="Educação" title="Formação" />
+        <div class="education-list">
+          {education.map((edu) => (
+            <EducationItem education={edu} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="contato" class="section section--contact">
+      <div class="section__inner reveal">
+        <SectionHeading label="Conecte-se" title="Vamos conversar?" />
+        <p class="contact__text">
+          Seja para uma oportunidade, uma ideia maluca ou só para trocar uma ideia sobre tech.
+        </p>
+        <a
+          href="mailto:joaovictorlourenco886@gmail.com"
+          class="contact__email"
+        >
+          joaovictorlourenco886@gmail.com
+        </a>
+        <SocialLinks socials={socials} variant="compact" />
+      </div>
+    </section>
   </div>
 </Layout>
+
+<script>
+  // Reveal animation via IntersectionObserver
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+  );
+
+  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+</script>
+
+<style>
+  .page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-4xl) var(--space-xl);
+  }
+
+  .section--hero {
+    min-height: 100dvh;
+    justify-content: center;
+    padding: var(--space-xl);
+  }
+
+  .section__inner {
+    width: 100%;
+    max-width: 40rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    width: 100%;
+    max-width: 40rem;
+    padding: var(--space-2xl);
+    background-color: var(--color-bg);
+    border-radius: 1.25rem;
+    box-shadow:
+      0 1px 3px oklch(0.30 0.02 130 / 0.06),
+      0 6px 24px oklch(0.30 0.02 130 / 0.04);
+  }
+
+  .animate-in {
+    animation: cardFadeIn 0.5s ease-out both;
+  }
+
+  @keyframes cardFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .education-list {
+    width: 100%;
+    max-width: 40rem;
+  }
+
+  .section--contact {
+    text-align: center;
+  }
+
+  .section--contact .section__inner {
+    align-items: center;
+  }
+
+  .contact__text {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: 400;
+    color: var(--color-muted);
+    line-height: 1.5;
+    margin: 0 0 var(--space-md);
+    max-width: 32ch;
+  }
+
+  .contact__email {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--color-primary);
+    text-decoration: none;
+    margin-bottom: var(--space-lg);
+    transition: color 0.2s ease-out;
+  }
+
+  .contact__email:hover {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+  }
+
+  .contact__email:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-in {
+      animation: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .card {
+      padding: var(--space-lg);
+      border-radius: 1rem;
+      box-shadow: none;
+      background-color: transparent;
+    }
+
+    .section {
+      padding: var(--space-3xl) var(--space-lg);
+    }
+
+    .section--hero {
+      padding: var(--space-lg);
+    }
+
+    .contact__email {
+      font-size: var(--text-lg);
+    }
+  }
+</style>
