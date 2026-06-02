@@ -1,0 +1,57 @@
+---
+import type { Education } from '../data/education';
+
+interface Props {
+  education: Education;
+}
+
+const { education } = Astro.props;
+---
+
+<article class="education-item">
+  <h3 class="education-item__degree">{education.degree}</h3>
+  <p class="education-item__meta">
+    {education.institution} · {education.period}
+  </p>
+  {education.description && (
+    <p class="education-item__description">{education.description}</p>
+  )}
+</article>
+
+<style>
+  .education-item {
+    padding: var(--space-lg) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .education-item:last-child {
+    border-bottom: none;
+  }
+
+  .education-item__degree {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-ink);
+    line-height: 1.3;
+    margin: 0 0 var(--space-xs);
+  }
+
+  .education-item__meta {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-muted);
+    margin: 0 0 var(--space-sm);
+    line-height: 1.4;
+  }
+
+  .education-item__description {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 400;
+    color: var(--color-muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+</style>
