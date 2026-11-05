@@ -1,228 +1,26 @@
 ---
 import { Image } from 'astro:assets';
-import SocialLinks from './SocialLinks.astro';
-import icon from '../../public/icon.jpg';
-
-interface Props {
-  name: string;
-  title: string;
-  tagline: string;
-}
-
-const { name, title, tagline } = Astro.props;
-
-const socials = [
-  {
-    url: 'https://www.linkedin.com/in/jo%C3%A3odevfull/',
-    icon: 'mdi:linkedin',
-    label: 'LinkedIn',
-  },
-  {
-    url: 'https://github.com/joaovictorlourenco',
-    icon: 'mdi:github',
-    label: 'GitHub',
-  },
-  {
-    url: 'https://www.instagram.com/joaolourenco.ceara/',
-    icon: 'mdi:instagram',
-    label: 'Instagram',
-  },
-  {
-    url: 'mailto:joaovictorlourenco886@gmail.com',
-    icon: 'mdi:email-outline',
-    label: 'Email',
-  },
-];
+import { Icon } from 'astro-icon/components';
+import portrait from '../assets/joao-victor-profissional-v2.png';
+import { BackgroundBeamsWithCollision } from './ui/background-beams-with-collision';
+import { profile } from '../data/profile';
 ---
-
-<section class="hero">
-  <div class="hero__photo">
-    <div class="avatar-ring">
-      <Image
-        src={icon}
-        alt="João Victor Lourenço, desenvolvedor de software, sorrindo"
-        class="avatar-image"
-        width={160}
-        height={160}
-        loading="eager"
-      />
-    </div>
+<BackgroundBeamsWithCollision client:load />
+<div class="hero-copy">
+  <p class="hero-intro"><span class="intro-line" aria-hidden="true"></span><span>João Victor Lourenço<small>Engenheiro de Software</small></span></p>
+  <h1><span class="hero-title-mask"><span class="hero-title-line">Engenharia que</span></span><span class="hero-title-mask hero-accent"><span class="hero-title-line">vira produto.</span></span></h1>
+  <p class="hero-description">Do backend à experiência de quem usa. Construo sistemas escaláveis e produtos que resolvem problemas reais.</p>
+  <div class="hero-actions">
+    <a class="button button-primary" href="#projetos">Explorar projetos <Icon name="mdi:arrow-bottom-right" /></a>
+    <a class="text-link" href={profile.github} target="_blank" rel="noopener noreferrer"><Icon name="mdi:github" /> Meu GitHub <Icon name="mdi:arrow-top-right" /></a>
   </div>
-
-  <div class="hero__content">
-    <div>
-      <p class="hero__label">Olá, eu sou</p>
-      <h1 class="hero__name">{name}</h1>
-      <p class="hero__title">{title}</p>
-    </div>
-    <p class="hero__tagline">{tagline}</p>
-
-    <div class="hero__ctas">
-      <a href="#experiencia" class="hero__cta hero__cta--primary">
-        Ver experiência
-      </a>
-      <a href="#projetos" class="hero__cta hero__cta--secondary">
-        Ver projetos
-      </a>
-    </div>
-
-    <SocialLinks socials={socials} variant="large" />
+</div>
+<div class="hero-visual">
+  <div class="portrait-orbit orbit-one" aria-hidden="true"></div><div class="portrait-orbit orbit-two" aria-hidden="true"></div>
+  <div class="portrait-container">
+    <figure class="portrait-figure">
+      <Image src={portrait} alt="João Victor Lourenço, engenheiro de software, sorrindo" width={610} format="webp" quality={85} loading="eager" fetchpriority="high" class="portrait-image" />
+    </figure>
   </div>
-</section>
-
-<style>
-  .hero {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2xl);
-    width: 100%;
-    max-width: 40rem;
-  }
-
-  .hero__photo {
-    flex-shrink: 0;
-  }
-
-  .avatar-ring {
-    width: 7.5rem;
-    height: 7.5rem;
-    border-radius: 50%;
-    padding: 4px;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-  }
-
-  .avatar-image {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: center;
-    border: 3px solid var(--color-bg);
-  }
-
-  .hero__content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-    min-width: 0;
-  }
-
-  .hero__label {
-    font-family: var(--font-body);
-    font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--color-primary);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    margin: 0;
-    line-height: 1;
-  }
-
-  .hero__name {
-    font-family: var(--font-display);
-    font-size: var(--text-3xl);
-    font-weight: 700;
-    color: var(--color-ink);
-    line-height: 1.1;
-    margin: var(--space-xs) 0 0;
-    letter-spacing: -0.02em;
-  }
-
-  .hero__title {
-    font-family: var(--font-body);
-    font-size: var(--text-lg);
-    font-weight: 600;
-    color: var(--color-primary-dark);
-    line-height: 1.3;
-    margin: var(--space-xs) 0 0;
-  }
-
-  .hero__tagline {
-    font-family: var(--font-body);
-    font-size: var(--text-base);
-    font-weight: 400;
-    color: var(--color-muted);
-    line-height: 1.5;
-    margin: 0;
-    max-width: 32ch;
-  }
-
-  .hero__ctas {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-sm);
-    margin-top: var(--space-xs);
-  }
-
-  .hero__cta {
-    font-family: var(--font-body);
-    font-size: var(--text-sm);
-    font-weight: 600;
-    padding: 0.625rem 1.25rem;
-    border-radius: 0.75rem;
-    text-decoration: none;
-    line-height: 1;
-    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s ease-out;
-  }
-
-  .hero__cta--primary {
-    background-color: var(--color-primary);
-    color: var(--color-bg);
-    box-shadow: 0 1px 3px oklch(0.40 0.08 130 / 0.2);
-  }
-
-  .hero__cta--primary:hover {
-    background-color: var(--color-primary-light);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px oklch(0.40 0.08 130 / 0.25);
-  }
-
-  .hero__cta--secondary {
-    background-color: var(--color-surface);
-    color: var(--color-ink);
-    border: 1px solid var(--color-border);
-  }
-
-  .hero__cta--secondary:hover {
-    background-color: var(--color-primary-surface);
-    border-color: var(--color-primary);
-    color: var(--color-primary-dark);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px oklch(0.40 0.08 130 / 0.12);
-  }
-
-  @media (max-width: 640px) {
-    .hero {
-      flex-direction: column;
-      text-align: center;
-      gap: var(--space-lg);
-    }
-
-    .hero__tagline {
-      max-width: 32ch;
-      margin-inline: auto;
-    }
-
-    .hero__ctas {
-      justify-content: center;
-    }
-
-    .avatar-ring {
-      width: 6rem;
-      height: 6rem;
-    }
-
-    .hero__label {
-      font-size: var(--text-xs);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero__cta {
-      transition: none;
-    }
-    .hero__cta:hover {
-      transform: none;
-    }
-  }
-</style>
+  <div class="hero-note"><span class="note-symbol" aria-hidden="true"><Icon name="mdi:code-tags" /></span><div><strong>Backend com visão de produto.</strong><span>Go, Node.js & um pouco de curiosidade.</span></div></div>
+</div>

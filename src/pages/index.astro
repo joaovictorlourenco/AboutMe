@@ -1,235 +1,83 @@
 ---
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import ProfileHeader from '../components/ProfileHeader.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import ExperienceTimeline from '../components/ExperienceTimeline.astro';
 import ProjectsGrid from '../components/ProjectsGrid.astro';
 import EducationItem from '../components/EducationItem.astro';
-import SocialLinks from '../components/SocialLinks.astro';
 import { education } from '../data/education';
-
-const socials = [
-  {
-    url: 'https://www.linkedin.com/in/jo%C3%A3odevfull/',
-    icon: 'mdi:linkedin',
-    label: 'LinkedIn',
-  },
-  {
-    url: 'https://github.com/joaovictorlourenco',
-    icon: 'mdi:github',
-    label: 'GitHub',
-  },
-  {
-    url: 'https://www.instagram.com/joaolourenco.ceara/',
-    icon: 'mdi:instagram',
-    label: 'Instagram',
-  },
-  {
-    url: 'mailto:joaovictorlourenco886@gmail.com',
-    icon: 'mdi:email-outline',
-    label: 'Email',
-  },
+import { experiences } from '../data/experience';
+import { profile, socials } from '../data/profile';
+const skills = [
+  { title: 'Backend & arquitetura', icon: 'mdi:server-outline', description: 'APIs, microsserviços e sistemas distribuídos.', techs: ['Go', 'Node.js', 'NestJS', 'Python', 'C#'] },
+  { title: 'Dados & comunicação', icon: 'mdi:database-outline', description: 'Persistência, eventos e processamento assíncrono.', techs: ['PostgreSQL', 'MongoDB', 'ScyllaDB', 'Kafka', 'MQTT'] },
+  { title: 'Do deploy ao produto', icon: 'mdi:layers-outline', description: 'Infraestrutura confiável e interfaces bem resolvidas.', techs: ['AWS', 'Docker', 'CI/CD', 'React', 'TypeScript'] },
 ];
 ---
-
-<Layout title="João Victor Lourenço — Desenvolvedor de Software">
-  <div class="page">
-    <section id="hero" class="section section--hero">
-      <div class="card animate-in">
-        <ProfileHeader
-          name="João Victor Lourenço"
-          title="Desenvolvedor de Software — do backend de alta performance ao frontend polido."
-          tagline="Construo sistemas escaláveis em Go, Node e Python. Gosto de código limpo, arquitetura bem pensada e produtos que funcionam."
-        />
-      </div>
-    </section>
-
-    <section id="experiencia" class="section">
-      <div class="section__inner reveal">
-        <SectionHeading label="Onde trabalhei" title="Experiência Profissional" />
-        <ExperienceTimeline />
-      </div>
-    </section>
-
-    <section id="projetos" class="section">
-      <div class="section__inner reveal">
-        <SectionHeading label="O que construí" title="Projetos" />
-        <ProjectsGrid />
-      </div>
-    </section>
-
-    <section id="formacao" class="section">
-      <div class="section__inner reveal">
-        <SectionHeading label="Educação" title="Formação" />
-        <div class="education-list">
-          {education.map((edu) => (
-            <EducationItem education={edu} />
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section id="contato" class="section section--contact">
-      <div class="section__inner reveal">
-        <SectionHeading label="Conecte-se" title="Vamos conversar?" />
-        <p class="contact__text">
-          Seja para uma oportunidade, uma ideia maluca ou só para trocar uma ideia sobre tech.
-        </p>
-        <a
-          href="mailto:joaovictorlourenco886@gmail.com"
-          class="contact__email"
-        >
-          joaovictorlourenco886@gmail.com
+<Layout title="João Victor Lourenço | Engenheiro de Software">
+  <section id="hero" class="hero container"><ProfileHeader /></section>
+  <div class="career-strip container" aria-label="Trajetória profissional">
+    <p>Construindo em diferentes escalas.</p>
+    <div>
+      {experiences.filter(exp => ['AgRisk', 'Luizalabs (Magalu)', 'Valmont Industries, Inc.', 'bugWare'].includes(exp.company)).map((exp, index) => (
+        <a href="#experiencia" class:list={['career-company', { 'career-current': index === 0 }]}>
+          <span class="career-logo"><Image src={exp.logo} alt="" width={40} /></span>
+          <span>{exp.company.replace(' (Magalu)', '').replace(' Industries, Inc.', '')}{index === 0 && <small>atualmente</small>}</span>
         </a>
-        <SocialLinks socials={socials} variant="compact" />
-      </div>
-    </section>
+      ))}
+    </div>
   </div>
+  <section id="projetos" class="section container">
+    <SectionHeading label="Da ideia à execução" title="Código que sai do papel." description="Inteligência artificial, IoT e engenharia. Problemas diferentes, a mesma vontade de construir." />
+    <ProjectsGrid />
+    <a class="text-link all-projects" href={`${profile.github}?tab=repositories`} target="_blank" rel="noopener noreferrer">Mais experimentos no GitHub <Icon name="mdi:arrow-top-right" /></a>
+  </section>
+  <section id="experiencia" class="section experience-section container">
+    <div class="experience-heading"><SectionHeading title="Uma trajetória feita de entregas." description="Do desenvolvimento web a sistemas de alta escala. As experiências que moldaram meu jeito de construir." /><a href={profile.linkedin} class="text-link" target="_blank" rel="noopener noreferrer">Trajetória no LinkedIn <Icon name="mdi:arrow-top-right" /></a></div>
+    <ExperienceTimeline />
+  </section>
+  <section id="sobre" class="section about-section">
+    <div class="container">
+      <div class="about-intro"><span class="about-code" aria-hidden="true">{ '{' }</span><div><h2>Tecnologia é o meio.<br /><span>Resolver é o objetivo.</span></h2><p>Gosto de entender o problema antes de escolher a ferramenta. Minha experiência conecta backend, infraestrutura e interfaces, do ecossistema de logística ao agronegócio.</p></div><span class="about-code about-code-close" aria-hidden="true">{ '}' }</span></div>
+      <div class="skills-grid">{skills.map(skill => <article class="skill"><Icon name={skill.icon} /><h3>{skill.title}</h3><p>{skill.description}</p><ul class="tech-tags">{skill.techs.map(tech => <li>{tech}</li>)}</ul></article>)}</div>
+    </div>
+  </section>
+  <section id="formacao" class="section container">
+    <SectionHeading title="Aprender faz parte do trabalho." description="A prática ganha força com uma base bem construída." />
+    <div class="education-grid">{education.map(edu => <EducationItem education={edu} />)}</div>
+  </section>
+  <section id="contato" class="contact-section container">
+    <div class="contact-inner"><p class="section-label">Uma boa conversa é um começo</p><h2>O próximo projeto<br /> pode ser o nosso<span>.</span></h2><p>Tem um desafio técnico, uma oportunidade ou uma ideia?<br /> Vamos descobrir o que podemos construir juntos.</p><div class="contact-actions"><a class="button button-primary" href={`mailto:${profile.email}`}>Me mande um e-mail <Icon name="mdi:arrow-top-right" /></a><button type="button" class="copy-email text-link" data-email={profile.email}><Icon name="mdi:content-copy" /><span>Copiar e-mail</span></button></div><p class="copy-feedback" role="status" aria-live="polite"></p></div>
+    <div class="contact-orbits" aria-hidden="true"><span></span><span></span><span></span><Icon name="mdi:asterisk" /></div>
+    <div class="contact-bottom"><a href={`mailto:${profile.email}`} class="email-link">{profile.email}</a><div class="contact-socials">{socials.filter(s => s.label !== 'Email').map(social => <a href={social.url} target="_blank" rel="noopener noreferrer"><Icon name={social.icon} />{social.label}<Icon name="mdi:arrow-top-right" /></a>)}</div></div>
+  </section>
 </Layout>
-
 <script>
-  // Reveal animation via IntersectionObserver
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
+  const copy = document.querySelector<HTMLButtonElement>('.copy-email')!;
+  const feedback = document.querySelector<HTMLElement>('.copy-feedback')!;
+  copy.addEventListener('click', async () => {
+    feedback.textContent = 'Copiando e-mail…';
+    const pending = setTimeout(() => {
+      feedback.textContent = `Meu e-mail: ${copy.dataset.email}`;
+    }, 1500);
+    try {
+      await navigator.clipboard.writeText(copy.dataset.email!);
+      feedback.textContent = 'E-mail copiado. Até já!';
+    } catch { feedback.textContent = `Meu e-mail: ${copy.dataset.email}`; }
+    finally { clearTimeout(pending); }
+  });
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  if (!reduced.matches) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.animate([{ opacity: 0, transform: 'translateY(22px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 650, easing: 'cubic-bezier(.22,1,.36,1)' });
+        observer.unobserve(entry.target);
       });
-    },
-    { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
-  );
-
-  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.section-heading, .project, .experience, .education-item, .skill').forEach(el => observer.observe(el));
+    reduced.addEventListener('change', event => { if (event.matches) { observer.disconnect(); document.getAnimations().forEach(animation => animation.finish()); } });
+  }
 </script>
-
-<style>
-  .page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .section {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: var(--space-4xl) var(--space-xl);
-  }
-
-  .section--hero {
-    min-height: 100dvh;
-    justify-content: center;
-    padding: var(--space-xl);
-  }
-
-  .section__inner {
-    width: 100%;
-    max-width: 40rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .card {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xl);
-    width: 100%;
-    max-width: 40rem;
-    padding: var(--space-2xl);
-    background-color: var(--color-bg);
-    border-radius: 1.25rem;
-    box-shadow:
-      0 1px 3px oklch(0.30 0.02 130 / 0.06),
-      0 6px 24px oklch(0.30 0.02 130 / 0.04);
-  }
-
-  .animate-in {
-    animation: cardFadeIn 0.5s ease-out both;
-  }
-
-  @keyframes cardFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(16px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .education-list {
-    width: 100%;
-    max-width: 40rem;
-  }
-
-  .section--contact {
-    text-align: center;
-  }
-
-  .section--contact .section__inner {
-    align-items: center;
-  }
-
-  .contact__text {
-    font-family: var(--font-body);
-    font-size: var(--text-base);
-    font-weight: 400;
-    color: var(--color-muted);
-    line-height: 1.5;
-    margin: 0 0 var(--space-md);
-    max-width: 32ch;
-  }
-
-  .contact__email {
-    font-family: var(--font-display);
-    font-size: var(--text-xl);
-    font-weight: 700;
-    color: var(--color-primary);
-    text-decoration: none;
-    margin-bottom: var(--space-lg);
-    transition: color 0.2s ease-out;
-  }
-
-  .contact__email:hover {
-    color: var(--color-primary-dark);
-    text-decoration: underline;
-  }
-
-  .contact__email:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-    border-radius: 2px;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .animate-in {
-      animation: none;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .card {
-      padding: var(--space-lg);
-      border-radius: 1rem;
-      box-shadow: none;
-      background-color: transparent;
-    }
-
-    .section {
-      padding: var(--space-3xl) var(--space-lg);
-    }
-
-    .section--hero {
-      padding: var(--space-lg);
-    }
-
-    .contact__email {
-      font-size: var(--text-lg);
-    }
-  }
-</style>

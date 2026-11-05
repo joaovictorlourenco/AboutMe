@@ -1,57 +1,13 @@
 ---
+import { Icon } from 'astro-icon/components';
 import type { Education } from '../data/education';
-
-interface Props {
-  education: Education;
-}
-
-const { education } = Astro.props;
+interface Props { education: Education; }
+const { education: edu } = Astro.props;
 ---
-
 <article class="education-item">
-  <h3 class="education-item__degree">{education.degree}</h3>
-  <p class="education-item__meta">
-    {education.institution} · {education.period}
-  </p>
-  {education.description && (
-    <p class="education-item__description">{education.description}</p>
-  )}
+  <Icon name="mdi:school-outline" class="education-icon" />
+  <p class="education-period">{edu.period.replace(/[–—]/g, '-')}</p>
+  <h3>{edu.degree}</h3>
+  <p class="education-institution">{edu.institution.replace(/[–—]/g, '-')}</p>
+  {edu.description && <p class="education-description">{edu.description}</p>}
 </article>
-
-<style>
-  .education-item {
-    padding: var(--space-lg) 0;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .education-item:last-child {
-    border-bottom: none;
-  }
-
-  .education-item__degree {
-    font-family: var(--font-display);
-    font-size: var(--text-lg);
-    font-weight: 700;
-    color: var(--color-ink);
-    line-height: 1.3;
-    margin: 0 0 var(--space-xs);
-  }
-
-  .education-item__meta {
-    font-family: var(--font-body);
-    font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--color-muted);
-    margin: 0 0 var(--space-sm);
-    line-height: 1.4;
-  }
-
-  .education-item__description {
-    font-family: var(--font-body);
-    font-size: var(--text-sm);
-    font-weight: 400;
-    color: var(--color-muted);
-    line-height: 1.5;
-    margin: 0;
-  }
-</style>

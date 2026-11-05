@@ -22,3 +22,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Local image-generation drafts and prompts
+src/assets/*.prompt.txt
+src/assets/joao-victor-profissional.png

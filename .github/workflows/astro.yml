@@ -41,11 +41,12 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       
       - name: Install dependencies with Bun
-        run: bun install
+        run: bun install --frozen-lockfile
         working-directory: ${{ env.BUILD_PATH }}
 
       - name: Build with Astro using Bun
         run: |
+          bun astro check
           bun astro build \
             --site "${{ steps.pages.outputs.origin }}" \
             --base "${{ steps.pages.outputs.base_path }}"

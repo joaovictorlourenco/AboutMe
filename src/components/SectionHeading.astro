@@ -1,42 +1,9 @@
 ---
-interface Props {
-  label: string;
-  title: string;
-}
-
-const { label, title } = Astro.props;
+interface Props { title: string; description?: string; label?: string; }
+const { title, description, label } = Astro.props;
 ---
-
 <div class="section-heading">
-  <span class="section-heading__label">{label}</span>
-  <h2 class="section-heading__title">{title}</h2>
+  {label && <p class="section-label">{label}</p>}
+  <h2>{title}</h2>
+  {description && <p>{description}</p>}
 </div>
-
-<style>
-  .section-heading {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
-    margin-bottom: var(--space-xl);
-  }
-
-  .section-heading__label {
-    font-family: var(--font-body);
-    font-size: var(--text-xs);
-    font-weight: 600;
-    color: var(--color-primary);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    line-height: 1;
-  }
-
-  .section-heading__title {
-    font-family: var(--font-display);
-    font-size: var(--text-2xl);
-    font-weight: 700;
-    color: var(--color-ink);
-    line-height: 1.2;
-    margin: 0;
-    letter-spacing: -0.02em;
-  }
-</style>

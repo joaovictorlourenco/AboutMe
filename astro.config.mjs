@@ -5,10 +5,13 @@ import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 
 import icon from 'astro-icon';
+import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
   prefetch: true,
-  site: 'https://joaovictorlourenco.github.io/AboutMe/',
-  integrations: [tailwind(), icon(), sitemap()],
+  site: 'https://joaovictorlourenco.github.io',
+  base: '/AboutMe',
+  trailingSlash: 'always',
+  integrations: [tailwind(), react(), icon(), sitemap()],
 });

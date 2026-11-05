@@ -1,102 +1,48 @@
 ---
+import '@fontsource-variable/manrope';
+import '@fontsource/ibm-plex-mono/400.css';
+import '../styles/global.css';
 import NavBar from '../components/NavBar.astro';
-import SmoothScroll from '../components/SmoothScroll.astro';
-
-interface Props {
-  title: string;
-}
-
-const currentYear = new Date().getFullYear();
-
+import { profile } from '../data/profile';
+interface Props { title: string; }
 const { title } = Astro.props;
+const description = 'João Victor Lourenço, engenheiro de software. Backend, sistemas distribuídos e produtos digitais com Go, Node.js, NestJS e Python.';
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
-
 <!doctype html>
-<html lang="pt-br">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="description"
-      content="João Victor Lourenço — Desenvolvedor de Software. Portfólio profissional."
-    />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta
-      name="google-site-verification"
-      content="4Y9FfFYiim01hecddemEpLY-uTldVF207yiJFYJDzjw"
-    />
-    <meta name="generator" content={Astro.generator} />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage:wght@400;600;700&family=Sora:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
-
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f7f9f6" />
+    <meta name="google-site-verification" content="4Y9FfFYiim01hecddemEpLY-uTldVF207yiJFYJDzjw" />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
     <title>{title}</title>
+    <script is:inline>
+      try {
+        const saved = localStorage.getItem('portfolio-theme');
+        document.documentElement.dataset.theme = saved === 'dark' || saved === 'light'
+          ? saved : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      } catch {}
+    </script>
   </head>
   <body>
     <a href="#main" class="skip-link">Pular para o conteúdo</a>
     <NavBar />
-    <main id="main">
-      <slot />
-    </main>
-
-    <footer class="site-footer">
-      <p class="site-footer__text">
-        &copy; {currentYear} · João Victor Lourenço
-      </p>
-      <p class="site-footer__tagline">
-        Feito com Astro, café e muitas linhas de código.
-      </p>
+    <main id="main" tabindex="-1"><slot /></main>
+    <footer class="site-footer container">
+      <a href="#hero" class="footer-name">João<span>.</span></a>
+      <p>Feito com intenção. Construído com Astro.</p>
+      <span>© {new Date().getFullYear()} {profile.name}</span>
     </footer>
-
-    <SmoothScroll />
   </body>
 </html>
-
-<style>
-  .skip-link {
-    position: absolute;
-    top: -40px;
-    left: 0;
-    background: var(--color-primary);
-    color: var(--color-bg);
-    padding: 8px 16px;
-    z-index: 100;
-    text-decoration: none;
-    font-family: var(--font-body);
-    font-size: var(--text-sm);
-    font-weight: 600;
-    border-radius: 0 0 4px 0;
-    transition: top 0.2s;
-  }
-
-  .skip-link:focus {
-    top: 0;
-  }
-
-  .site-footer {
-    width: 100%;
-    max-width: 40rem;
-    margin: 0 auto;
-    padding: var(--space-2xl) var(--space-xl) var(--space-lg);
-    text-align: center;
-  }
-
-  .site-footer__text {
-    font-family: var(--font-body);
-    font-size: var(--text-sm);
-    color: var(--color-muted);
-    margin: 0 0 var(--space-xs);
-  }
-
-  .site-footer__tagline {
-    font-family: var(--font-body);
-    font-size: var(--text-xs);
-    color: var(--color-muted);
-    opacity: 0.7;
-    margin: 0;
-  }
-</style>
